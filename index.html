@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta property="og:title" content="Richan's Farewell Cards">
+<meta property="og:description" content="A little magic for the people who shared this chapter with me.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%2317204a'/%3E%3Cpath d='M50 12 58 42 88 50 58 58 50 88 42 58 12 50 42 42Z' fill='%23f2c14e'/%3E%3C/svg%3E">
+<title>Richan's Farewell Cards</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Marcellus&family=Karla:wght@400;600&display=swap">
+<style>
+  :root {
+    color-scheme: dark;
+    --sky: #17204a;
+    --sky-deep: #0f1535;
+    --cream: #f4e7cf;
+    --cream-dim: #c9bfae;
+    --gold: #f2c14e;
+    --pink: #efa7b6;
+    --display: "Marcellus", Georgia, serif;
+    --body: "Karla", "Avenir Next", "Segoe UI", sans-serif;
+  }
+  [hidden] { display: none !important; }
+  html, body { height: 100%; }
+  body {
+    margin: 0;
+    background: radial-gradient(ellipse at 50% 45%, #1f2a5e, var(--sky) 45%, var(--sky-deep));
+    background-color: var(--sky);
+    color: var(--cream);
+    font: 16px/1.6 var(--body);
+    overflow-x: hidden;
+  }
+  button { all: unset; cursor: pointer; }
+  button:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
+  #stars { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+
+  .view {
+    position: relative;
+    min-height: 100%;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding-inline: 16px; padding-block: 32px;
+    box-sizing: border-box;
+  }
+
+  /* ---------- card (flips once) ---------- */
+  .card { position: relative; display: block; aspect-ratio: 0.66; perspective: 1400px; }
+  .card .inner {
+    position: relative; width: 100%; height: 100%;
+    transform-style: preserve-3d;
+    transition: transform .9s cubic-bezier(.45,0,.25,1);
+  }
+  .card.flipped .inner { transform: rotateY(180deg); }
+  .face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+  .face img { width: 100%; height: 100%; object-fit: contain; display: block; }
+  .face.front { transform: rotateY(180deg); }
+  .big { width: min(340px, 42vw); filter: drop-shadow(0 20px 40px rgba(0,0,0,.55)); }
+
+  /* ---------- message ---------- */
+  .spread { display: flex; align-items: center; justify-content: center; gap: clamp(24px, 5vw, 64px); max-width: 980px; width: 100%; margin: auto; }
+  .letter { max-width: 34em; animation: rise .9s .9s cubic-bezier(.22,1,.36,1) both; }
+  .reading .letter { animation-delay: 1.5s; }
+  .letter .eyebrow { font-family: var(--display); color: var(--gold); font-size: 14px; letter-spacing: .2em; text-transform: uppercase; margin: 0; }
+  .letter h2 { font-family: var(--display); font-weight: 400; font-size: clamp(34px, 5vw, 50px); line-height: 1.1; margin: .1em 0 .45em; }
+  .letter .msg { font-size: 18px; line-height: 1.7; margin: 0 0 1em; }
+  .letter .note { padding-top: 1em; border-top: 1px dashed rgba(242,193,78,.35); color: var(--cream-dim); margin: 0; }
+  .letter .sign { font-family: var(--display); color: var(--pink); font-size: 20px; margin-top: .4em; }
+  .more {
+    display: inline-block; margin-top: 1.4em; padding: .55em 1.2em;
+    border: 1px solid var(--gold); border-radius: 999px;
+    color: var(--gold); font-size: 15px; font-weight: 600;
+  }
+  .more:hover { background: var(--gold); color: var(--sky-deep); }
+  @keyframes rise { from { opacity: 0; transform: translateY(14px); } }
+
+  /* ---------- personal view ---------- */
+  #p-card { width: min(360px, 72vw); animation: float 6s ease-in-out infinite; transition: width .9s cubic-bezier(.45,0,.25,1); }
+  #p-card.flipped { width: min(340px, 42vw); animation: none; cursor: default; }
+  #personal .spread { margin-block: 0; }
+  .prompt { font-family: var(--display); color: var(--gold); font-size: 22px; letter-spacing: .14em; text-transform: uppercase; margin: 28px 0 0; }
+  @keyframes float { 50% { translate: 0 -6px; } }
+
+  /* ---------- the table ---------- */
+  .stage {
+    --size: min(92vw, 88vh, 680px);
+    position: relative; width: var(--size); height: var(--size); max-width: 100%;
+  }
+  .ring { position: absolute; inset: 9%; border-radius: 50%; border: 1px solid rgba(242,193,78,.28); }
+  .center {
+    position: absolute; inset: 0; padding: 0 24%;
+    display: grid; place-content: center; text-align: center; pointer-events: none;
+  }
+  .center .star { color: var(--gold); font-size: calc(var(--size) * .04); }
+  .center h1 { font-family: var(--display); font-weight: 400; font-size: calc(var(--size) * .042); line-height: 1.3; margin: .3em 0 0; text-wrap: balance; }
+  .center .subtitle { margin: .9em 0 0; color: var(--gold); font-size: max(11px, calc(var(--size) * .022)); letter-spacing: .08em; text-wrap: balance; }
+  /* the table turns; each card turns back the same amount so it stays upright */
+  .table, .upright { transition: transform 1.2s cubic-bezier(.65,0,.35,1); }
+  .table { position: absolute; inset: 0; transform: rotate(var(--turn, 0deg)); }
+  .upright { transform: rotate(calc(var(--turn, 0deg) * -1)); }
+  .slot {
+    position: absolute; left: 50%; top: 50%;
+    width: calc(var(--size) * .17);
+    transform: translate(-50%, -50%) rotate(var(--a)) translateY(calc(var(--size) * -.37)) rotate(calc(var(--a) * -1)) rotate(var(--tilt));
+  }
+  .mini { width: 100%; filter: drop-shadow(0 6px 14px rgba(0,0,0,.45)); transition: transform .5s ease; }
+  .mini:hover { transform: translateY(-8px) scale(1.06); }
+
+  /* ---------- pop-up reading ---------- */
+  .reading {
+    position: fixed; inset: 0; z-index: 10;
+    display: flex; padding: 24px 16px; box-sizing: border-box; overflow-y: auto; overflow-x: hidden;
+    background: rgba(10,14,38,.85);
+    backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+    opacity: 0; pointer-events: none;
+    transition: opacity .6s ease;
+  }
+  .reading.open { opacity: 1; pointer-events: auto; }
+  .close {
+    position: fixed; top: 14px; right: 16px; z-index: 11;
+    width: 44px; height: 44px; display: grid; place-items: center;
+    border-radius: 50%; border: 1px solid rgba(244,231,207,.35);
+    font-size: 24px; background: rgba(15,21,53,.6);
+  }
+  .close:hover { color: var(--gold); border-color: var(--gold); }
+
+  /* ---------- star glitter ---------- */
+  /* sits inside the card, so the stars travel and zoom with it */
+  .glitter { position: absolute; left: 50%; top: 50%; width: 0; height: 0; pointer-events: none; z-index: 2; }
+  .spark {
+    position: absolute; width: var(--s); height: var(--s); margin: calc(var(--s) / -2);
+    background: var(--c);
+    clip-path: polygon(50% 0, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0 50%, 39% 39%);
+    opacity: 0;
+    animation: sparkle var(--d) var(--delay) ease-out forwards;
+  }
+  @keyframes sparkle {
+    0%   { opacity: 0; transform: translate(var(--x0), var(--y0)) scale(0); }
+    30%  { opacity: 1; transform: translate(var(--x0), var(--y0)) scale(1.1) rotate(60deg); }
+    100% { opacity: 0; transform: translate(var(--x1), var(--y1)) scale(.2) rotate(160deg); }
+  }
+
+  @media (max-width: 700px) {
+    .spread { flex-direction: column; gap: 24px; }
+    .reading .spread { padding-top: 40px; }
+    .big, #p-card.flipped { width: min(250px, 66vw); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+
+<canvas id="stars" aria-hidden="true"></canvas>
+
+<section class="view" id="personal" hidden>
+  <div class="spread">
+    <button class="card big" id="p-card" aria-label="Flip the card">
+      <div class="inner">
+        <div class="face back"><img src="cards/back.webp" alt=""></div>
+        <div class="face front"><img id="p-front" alt=""></div>
+      </div>
+    </button>
+    <div class="letter" id="p-letter" hidden></div>
+  </div>
+  <p class="prompt" id="p-prompt">Flip the card ✦</p>
+</section>
+
+<section class="view" id="circle" hidden>
+  <div class="stage">
+    <div class="ring"></div>
+    <div class="center">
+      <div class="star">✦</div>
+      <h1>A little magic for the people who shared this chapter with me.</h1>
+      <p class="subtitle">To Creative Marketing &amp; Friends ✦</p>
+    </div>
+    <div class="table" id="table"></div>
+  </div>
+</section>
+
+<div class="reading" id="reading" hidden role="dialog" aria-modal="true">
+  <button class="close" id="close" aria-label="Close">×</button>
+  <div class="spread">
+    <div class="card big" id="m-card">
+      <div class="inner">
+        <div class="face back"><img src="cards/back.webp" alt=""></div>
+        <div class="face front"><img id="m-front" alt=""></div>
+      </div>
+    </div>
+    <div class="letter" id="m-letter"></div>
+  </div>
+</div>
+
+<script>
+  const CARDS = [
+    { id: "cloud",  name: "Cloud",  title: "The North Star",
+      message: "Thank you for being a light along the way. You made my sky brighter." },
+    { id: "yoo",    name: "Yoo",    title: "The Magician",
+      message: "Thank you for all the ideas, magic, and things we made happen." },
+    { id: "feier",  name: "Feier",  title: "The Poet",
+      message: "Thank you for all the magical words, stories, and books we brought to life together." },
+    { id: "ivy",    name: "Ivy",    title: "The Spark",
+      message: "Thank you for bringing so much spark and energy, and for connecting our little world to the world out there." },
+    { id: "marina", name: "Marina", title: "The Gentle Keeper",
+      message: "Thank you for all the kindness and thoughtfulness you brought along the way." },
+    { id: "pamela", name: "Pamela", title: "The Weaver",
+      message: "Thank you for connecting so many little pieces of our story together." },
+    { id: "richan", name: "Richan", title: "The Wayfinder", self: true,
+      message: "On to another path, another book, and a little more magic in the story ahead." },
+  ];
+  const NOTE = "Different paths, the same sky. You made my sky a little more magical.<br>Thank you for sharing this journey with me.";
+
+  const $ = id => document.getElementById(id);
+
+  function letterHtml(c) {
+    return `<p class="eyebrow">${c.title}</p>
+      <h2>${c.name}</h2>
+      <p class="msg">${c.message}</p>
+      ${c.self ? "" : `<p class="note">${NOTE}</p>`}
+      <div class="sign">— Richan</div>`;
+  }
+
+  // ---------- personal link (#name): one card in the middle ----------
+  let me = null;
+  function showPersonal(c) {
+    me = c;
+    $("circle").hidden = true;
+    $("personal").hidden = false;
+    $("p-front").src = `cards/${c.id}.webp`;
+    $("p-front").alt = `${c.name}, ${c.title}`;
+  }
+  $("p-card").addEventListener("click", () => {
+    const card = $("p-card");
+    if (card.classList.contains("flipped")) return;
+    card.classList.add("flipped");
+    $("p-prompt").hidden = true;
+    $("p-letter").innerHTML = letterHtml(me) + `<button class="more" id="more">See the other cards ✦</button>`;
+    $("p-letter").hidden = false;
+    $("more").addEventListener("click", showCircle);
+    glitter(card, 1);
+  });
+
+  // ---------- the table of seven ----------
+  const table = $("table");
+  let turn = 0, busy = false;
+  CARDS.forEach((c, i) => {
+    const slot = document.createElement("div");
+    slot.className = "slot";
+    slot.style.setProperty("--a", (i * 360 / CARDS.length) + "deg");
+    slot.style.setProperty("--tilt", ((i % 2 ? 1 : -1) * (3 + i % 3)) + "deg");
+    slot.innerHTML = `
+      <div class="upright">
+        <button class="card mini" aria-label="Open card ${i + 1}">
+          <div class="inner">
+            <div class="face back"><img src="cards/back-sm.webp" alt=""></div>
+            <div class="face front"><img src="cards/${c.id}-sm.webp" alt=""></div>
+          </div>
+        </button>
+      </div>`;
+    slot.querySelector("button").addEventListener("click", e => pick(i, e.currentTarget));
+    table.appendChild(slot);
+  });
+
+  function showCircle() {
+    $("personal").hidden = true;
+    $("circle").hidden = false;
+    const mine = me && CARDS.indexOf(me);
+    table.querySelectorAll(".mini").forEach((b, i) => b.classList.toggle("flipped", i === mine));
+    window.scrollTo(0, 0);
+  }
+
+  // Turn the table so the chosen card comes to the top, then open it.
+  function pick(i, btn) {
+    if (busy) return;
+    let delta = -(i * 360 / CARDS.length + turn) % 360;
+    if (delta > 180) delta -= 360;
+    if (delta < -180) delta += 360;
+    turn += delta;
+    table.style.setProperty("--turn", turn + "deg");
+    busy = true;
+    setTimeout(() => { busy = false; openCard(CARDS[i], btn); }, Math.abs(delta) < 1 ? 0 : 1200);
+  }
+
+  // ---------- pop-up reading ----------
+  let closeTimer;
+  function openCard(c, btn) {
+    clearTimeout(closeTimer);
+    const card = $("m-card");
+    const inner = card.querySelector(".inner");
+    inner.style.transition = "none";          // snap face-down without animating
+    card.classList.remove("flipped");
+    void inner.offsetWidth;
+    inner.style.transition = "";
+    $("m-front").src = `cards/${c.id}.webp`;
+    $("m-front").alt = `${c.name}, ${c.title}`;
+    $("m-letter").innerHTML = letterHtml(c);
+    const reading = $("reading");
+    reading.hidden = false;
+    reading.scrollTop = 0;
+
+    // Zoom: start the big card exactly over the small one, then glide it into place.
+    const from = btn.getBoundingClientRect(), to = card.getBoundingClientRect();
+    const dx = from.left + from.width / 2 - (to.left + to.width / 2);
+    const dy = from.top + from.height / 2 - (to.top + to.height / 2);
+    card.style.transition = "none";
+    card.style.transform = `translate(${dx}px, ${dy}px) scale(${from.width / to.width})`;
+    void card.offsetWidth;
+    card.style.transition = "transform .8s cubic-bezier(.22,1,.36,1)";
+    card.style.transform = "";
+    reading.classList.add("open");
+
+    setTimeout(() => { card.classList.add("flipped"); btn.classList.add("flipped"); }, 700);
+    glitter(card, 1.6);
+  }
+  function closeCard() {
+    const reading = $("reading");
+    if (!reading.classList.contains("open")) return;
+    reading.classList.remove("open");
+    closeTimer = setTimeout(() => { reading.hidden = true; }, 600);
+  }
+  $("close").addEventListener("click", closeCard);
+  $("reading").addEventListener("click", e => { if (e.target.id === "reading" || e.target.classList.contains("spread")) closeCard(); });
+  document.addEventListener("keydown", e => { if (e.key === "Escape") closeCard(); });
+
+  // ---------- star glitter: 18 stars around the card, all gone after `total` seconds ----------
+  function glitter(el, total) {
+    const r = { width: el.offsetWidth, height: el.offsetHeight };
+    const layer = document.createElement("div");
+    layer.className = "glitter";
+    const d = total * 0.75;
+    const colors = ["#f2c14e", "#f4e7cf", "#efa7b6", "#ffe39a"];
+    for (let i = 0; i < 18; i++) {
+      const a = (i / 18) * Math.PI * 2;
+      const x = Math.cos(a), y = Math.sin(a);
+      const edge = 1 / Math.max(Math.abs(x) / (r.width / 2), Math.abs(y) / (r.height / 2));
+      const out = edge + 40 + Math.random() * 50;
+      const sp = document.createElement("span");
+      sp.className = "spark";
+      sp.style.cssText = `--s:${10 + Math.random() * 14}px; --c:${colors[i % 4]}; --d:${d}s; --delay:${Math.random() * (total - d)}s;` +
+        `--x0:${x * edge}px; --y0:${y * edge}px; --x1:${x * out}px; --y1:${y * out}px`;
+      layer.appendChild(sp);
+    }
+    el.appendChild(layer);
+    setTimeout(() => layer.remove(), total * 1000 + 50);
+  }
+
+  // ---------- open the right view ----------
+  const person = CARDS.find(c => c.id === location.hash.slice(1).toLowerCase());
+  person ? showPersonal(person) : showCircle();
+
+  // Load the large card images quietly in the background so cards open instantly.
+  addEventListener("load", () => CARDS.forEach(c => { new Image().src = `cards/${c.id}.webp`; }));
+
+  // ---------- twinkling background ----------
+  const cv = $("stars"), ctx = cv.getContext("2d");
+  let stars = [];
+  function resize() {
+    cv.width = innerWidth; cv.height = innerHeight;
+    stars = Array.from({ length: Math.round(innerWidth * innerHeight / 9000) }, () => ({
+      x: Math.random() * innerWidth, y: Math.random() * innerHeight,
+      r: Math.random() * 1.3 + .3, p: Math.random() * 6.3, gold: Math.random() < .18
+    }));
+  }
+  function draw(t) {
+    ctx.clearRect(0, 0, cv.width, cv.height);
+    for (const s of stars) {
+      const a = .35 + .45 * (.5 + .5 * Math.sin(t / 1000 + s.p));
+      ctx.fillStyle = s.gold ? `rgba(242,193,78,${a})` : `rgba(244,231,207,${a})`;
+      ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, 7); ctx.fill();
+    }
+    requestAnimationFrame(draw);
+  }
+  addEventListener("resize", resize);
+  resize(); requestAnimationFrame(draw);
+</script>
+</body>
+</html>
